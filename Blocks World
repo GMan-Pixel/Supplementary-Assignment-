@@ -107,7 +107,7 @@ while k < n+1
 blockDetails = currentState[k]'
 #blockDetails[2]
 
-if(blockDetails[2] == blockTable)
+if(blockDetails[2] == table)
 #sameTable[k] = k
 push!(sameTable, k)
 # push!(sameTable2, 
