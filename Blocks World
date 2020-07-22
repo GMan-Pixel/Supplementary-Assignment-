@@ -1,205 +1,123 @@
-function Intro()
+
+function Welcome()
 print("Welcome To The Blocks World")
-print("Enter the total number of blocks")
-n = parse(Int, readline())
 
+#print("Enter the total number of blocks")
+#n = parse(Int, readline())
 
-initialState = Vector{Int}[]
-goalState = Vector{Int}[]
-
-println("Please be careful to not enter contradictory data, such as a block being in two positions or two blocks occupying the same position. The algorithm might fail to halt")
-print("")
+println("Please be careful to not enter contradictory data.")
+print("A block cannot be in two positions.")
+print("Nor can two blocks occupy the same position. \n*The algorithm might fail to halt* \n\n")
 print("ATTENTION! Enter 1 or 2")
-print("[1]: All the blocks are in the box")
-print("[2] There are blocks on the tables as well as in the box.")
+print("\n[1]: All the blocks are in the box")
+print("\n[2] There are blocks on the tables as well as in the box.")
 
 mode = parse(Int, readline())
 print("MODE: ")
 print(mode)
 
-#if(mode == 1)
-#call function
-#end
+print("Enter the total number of blocks")
+       n = parse(Int, readline())
 
-
-
-println("Ënter block's details:")
-println("Ënter 0 for every field if block is in the box:")
-
-#this loop enters information into the state vectors
-g = 1
-while g < (2*n)+1
-
-if(mode == 1)
-#sets them all to zero
-table = 0
-stack = 0
-height = 0
-th = 1
-while th < n+1
-push!(initialState, [th, table, stack, height])
-th = th+1
-end
+World(n)
+return mode
 end
 
 
-if(g == 1)
-print("Accepting Initial State: ")
+#********************
+
+function World(n)
+
+       TableStacks()
+       #table details here
+        
+       print("Enter the total number of blocks")
+       n = parse(Int, readline())
+       
+       
+       #mode = parse(Int, readline())
+       #print("MODE: ")
+       #print(mode)
+
+       print("\n********************************************")
+
+       currentStateB = Vector{Int}[]
+       goalStateB = Vector{Int}[]
+
+       g = 1
+       while(g < 2*n + 1)
+       println("Ënter table:")
+       table = parse(Int, readline())
+
+       println("Ënter stack:")
+       stack = parse(Int, readline())
+
+       println("Ënter height:")
+       height = parse(Int, readline())
+       if(g < n+1)
+       push!(currentStateB, [g, table, stack, height])
+       end
+
+       if(g == n)
+       print("\nAccepting Goal State: ")
+       end
+
+       if(g >= n+1)
+       push!(goalStateB, [g-n, table, stack, height])
+
+       end
+       g = g+1
+       end
+       
+       print("CTRL + L \nTo clear the screen afterwards \n")
+       print("Initial state: \n")
+       print(currentStateB)
+       print("\n\n")
+       print("Goal state: \n")
+       print(goalStateB)
+
+       end
+
+#*****************
+
+function printOrder(block, table, loadAt, topBlockThere)
+      print("     Stack block number ", block)
+		  print("\n     Onto table number ", table)
+		  print("\n     At stack number ", loadAt)
+		  print("\n     On top of block number ", topBlockThere)
+     #=
+      print("Stack block number", getBlockAt(table, stack, beingStacked[index], goalStateT))
+		  print("\n Onto table number", table)
+		  print("\n At stack number ", loadingDock[table])
+		  print("On top of block number", getBlockAt(table, stack, beingStacked[index], currentStateT))
+      =#
+      #stack = counter - tableStarts[table]
+  end		  
+
+#*****************
+
+
+function TableStacks()
+print("Enter number of tables: \n")
+noOfTables = parse(Int, readline())
+tableNo = 1
+tableStarts = []
+v = 0
+while(tableNo < noOfTables+1)
+	print("Enter number of stacks for table ", tableNo)
+    print("\n")
+    
+	noOfStacks = parse(Int, readline())
+    v = v + noOfStacks
+	push!(tableStarts, v - noOfStacks)
+	tableNo = tableNo + 1
+end
+print("\n****************************************\n")
+print("Table start indices (in table vector): ", tableStarts)
+print("\n\n\n")
+return tableStarts
+#print(tableStarts)
 end
 
-println("Ënter table:")
-table = parse(Int, readline())
 
-println("Ënter stack:")
-stack = parse(Int, readline())
-
-println("Ënter height:")
-height = parse(Int, readline())
-
-if(g < n+1)
-push!(initialState, [g, table, stack, height])
-end
-
-if(g == n)
-print("Accepting Goal State: ")
-end
-
-if(g >= n+1)
-push!(goalState, [g, table, stack, height])
-end
-
-g = g + 1
-
-
-end
-
-currentState = 1*(initialState)
-
-blockState = initialState[1]'
-table = blockState[2]
-stack = blockState[3]
-height = blockState[4]
-
-
-#initially
-GetTopOrBottom(n, 1, table, stack, height, 1, currentState)
-
-
-end
-
-
-
-function GetTopOrBottom(n, i, table, stack, height, key, currentState)
-sameTable = []
-sameTable2 = []
-v = 0 
-k = 1
-
-while k < n+1
-#initialize k to start searching from 
-#while k < n
- if(k = i)
- #if k points to the same block as the current block
- #then skip it
- k = k+1
- end
-
-blockDetails = currentState[k]'
-#blockDetails[2]
-
-if(blockDetails[2] == table)
-#sameTable[k] = k
-push!(sameTable, k)
-# push!(sameTable2, 
-# push!(sameTable, blockDetails)
-#adds blocks details
-# this is an array storing blocks that are on the same table as current block
-end
-k = k + 1
-#end
-#this end ends this function
-
-
-
-#getting the stacks
-sameStack = []
-j = 1
-while j < length(sameTable)+1
-block = sameTable[j]
-#only fetches blocks on the same table
-
-blockDetails = currentState[block]'
-
-if(blockDetails[3] == stack)
-#sameTable[k] = k
-push!(sameStack, block)
-# this is an array storing blocks that are on the same table as current block
-end
-
-j = j + 1
-end
-
-#getting the heights
-heights = []
-heights2 = []
-l = 1
-divisor = (10^(floor(log(10, n))+1))
-
-while l < length(sameStack)+1
-block2 = sameStack[l]
-blockDetails = currentState[block2]'
-
-heights[l] = blockDetails[4]
-#blockDetails[4] refers to heights
-
-#HeightandBlock = block2+(blockDetails[4])/divisor
-
-#heights[] + block2
-
-HeightandBlock = blockDetails[4] + (block2)/divisor
-# as an example, if block 17 is at height 6 (6th block on its stack),
-# then this would store 6.17 
-
-#creating the arrays for it
-
-push!(heights2, HeightandBlock)
-end
-
-topSort1 = sort(heights2)
-#for removing top
-#here, smallest element is first
-bottomSort1 = sort(heights2, rev = true)
-#for placing bottom
-#here, largest element is first
-
-if(key == 0)
-function bottom(i, topSort1, divisor)
-end
-
-if(key == 1)
-function top(i, bottomSort1, divisor)
-end
-
-end
-
-function bottom(i, topSort1, divisor)
-
-#for x in topSort1
-#x = floor(x)
-#topSort2 =
-topSort2 = map(floor, topSort1)
-height = (topSort1[1]-floor(topSort1[1]))*divisor
-return topSort2[1]
-
-end
-
-function top(i, bottomSort1, divisor)
-
-#for x in topSort1
-#x = floor(x)
-#topSort2 =
-bottomSort2= map(floor, bottomSort1)
-height = (bottomSort1[1]-floor(bottomSort1[1]))*divisor
-return bottomSort2[1]
-#
-end
+#***************************
